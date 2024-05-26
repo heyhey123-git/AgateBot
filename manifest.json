@@ -1,0 +1,8 @@
+{
+    "name": "AgateBot",
+    "entry": "index.js",
+    "type": "lse-quickjs",
+    "description": "QQNTBOT, supporting Onebot 11",
+    "author": "heyhey123",
+    "version": "0.0.1"
+}
