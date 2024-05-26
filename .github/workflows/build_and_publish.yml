@@ -1,0 +1,48 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Node.js Package
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy HelperLib
+        run: |
+            mkdir -p dist/types
+            git clone https://github.com/LiteLDev/HelperLib.git dist/types
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: |
+            npm ci
+            tsc
+      - name: Read package.json
+        uses: rexdefuror/read-package-json@v1.0.5
+        with:
+          file: package.json
+          path: ./
+        id: package-info
+      - name: copy json files
+        run: cp ./package.json ./package-lock.json ./manifest.json ./dist/
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          path: ./dist/
+          filename: 'AgateBot-v${{ env.PACKAGE_VERSION }}release.zip'
+          exclusions: 'types'
+      - name: Upload asset to release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "AgateBot-v${{ env.PACKAGE_VERSION }}release.zip"
+          tag: v${{ env.PACKAGE_VERSION }}
+          generateReleaseNotes: true
+          token: ${{ secrets.PUBLISH }}
