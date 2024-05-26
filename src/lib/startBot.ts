@@ -1,6 +1,3 @@
-// LiteLoader-AIDS automatic generated
-/// <reference path="d:\Levilamina/dts/HelperLib-master/src/index.d.ts"/>
-
 import { ConfigFile } from './configCreator';
 
 const bot = new WSClient();
