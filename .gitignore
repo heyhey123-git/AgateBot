@@ -1,5 +1,6 @@
 # Dependency directory
 node_modules
+*.d.ts
 
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
@@ -102,3 +103,6 @@ __tests__/runner/*
 .vscode
 *.code-workspace
 .mcattributes
+.prettierrc.json
+.prettierrc.json
+.prettierrc.json
