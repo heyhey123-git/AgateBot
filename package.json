@@ -1,17 +1,9 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "agatebot",
+  "description": "Connecting ntQQ with llBDS",
+  "version": "0.0.1",
+  "author": "heyhey123",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
-  },
-  "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
-  },
   "keywords": [
     "actions",
     "node",
@@ -35,7 +27,7 @@
     "test": "npx jest",
     "all": "npm run format:write && npm run lint && npm run test && npm run coverage && npm run package"
   },
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "jest": {
     "preset": "ts-jest",
     "verbose": true,

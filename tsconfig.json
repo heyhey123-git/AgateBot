@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
+    "target": "ES6",
+    "module": "CommonJS",
     "rootDir": "./src",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "baseUrl": "./",
     "sourceMap": true,
     "outDir": "./dist",
@@ -14,6 +14,12 @@
     "strict": true,
     "skipLibCheck": true,
     "newLine": "lf"
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "module": "CommonJS"
+    }
   },
   "exclude": ["./dist", "./node_modules", "./__tests__", "./coverage"]
 }
