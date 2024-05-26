@@ -104,5 +104,3 @@ __tests__/runner/*
 *.code-workspace
 .mcattributes
 .prettierrc.json
-.prettierrc.json
-.prettierrc.json

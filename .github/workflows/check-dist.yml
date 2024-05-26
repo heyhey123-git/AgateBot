@@ -39,7 +39,10 @@ jobs:
 
       - name: Install Dependencies
         id: install
-        run: npm ci
+        run: |
+            npm install
+            tsc
+
 
       - name: Build dist/ Directory
         id: build
