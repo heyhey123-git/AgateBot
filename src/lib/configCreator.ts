@@ -9,8 +9,6 @@ interface Config {
 }
 
 let defaultConf: Config = {
-    IP: '127.0.0.1',
-    Port: 3000,
     Bot_Host: 'ws://localhost:3001',
     Self_ID: 10000,
     Receive_Group: [1001, 1002, 850517473]
