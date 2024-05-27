@@ -38,7 +38,7 @@ jobs:
           type: 'zip'
           path: ./dist/
           filename: 'AgateBot-v${{ env.PACKAGE_VERSION }}-release.zip'
-          exclusions: '*/types/*'
+          exclusions: './dist/types/'
       - name: Upload asset to release
         uses: ncipollo/release-action@v1
         with:
