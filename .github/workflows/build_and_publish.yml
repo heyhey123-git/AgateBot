@@ -16,8 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Copy HelperLib
         run: |
-            mkdir -p dist/types
-            git clone https://github.com/LiteLDev/HelperLib.git dist/types
+            mkdir -p helpLib/types
+            git clone https://github.com/LiteLDev/HelperLib.git helpLib/types
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -38,7 +38,6 @@ jobs:
           type: 'zip'
           path: ./dist/
           filename: 'AgateBot-v${{ env.PACKAGE_VERSION }}-release.zip'
-          exclusions: './dist/types/'
       - name: Upload asset to release
         uses: ncipollo/release-action@v1
         with:
