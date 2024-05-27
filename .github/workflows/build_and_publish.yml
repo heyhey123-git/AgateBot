@@ -23,7 +23,7 @@ jobs:
           node-version: 16
       - run: |
             npm ci
-            tsc
+            tsc --removeComments
       - name: Read package.json
         uses: rexdefuror/read-package-json@v1.0.5
         with:
