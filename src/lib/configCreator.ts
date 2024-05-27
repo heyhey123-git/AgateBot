@@ -1,21 +1,19 @@
-import { JsonConfig } from './configTemplate';
+import { JsonConfig } from "./configTemplate";
 
 interface Config {
-    IP: string;
-    Port: number;
     Bot_Host: string;
-    Self_ID: number;
-    Receive_Group: number[];
+    Self_QQ: number;
+    max_Reconnection_Times: number;
 }
 
 let defaultConf: Config = {
-    Bot_Host: 'ws://localhost:3001',
-    Self_ID: 10000,
-    Receive_Group: [1001, 1002, 850517473]
+    Bot_Host: "ws://localhost:3001",
+    Self_QQ: 10000,
+    max_Reconnection_Times: 0,
 };
 
 let ConfigFile = new JsonConfig(
-    './plugins/AgateBot/config/config.json',
+    "./plugins/AgateBot/config/config.json",
     defaultConf
 );
 
