@@ -2,8 +2,8 @@
 /// <"../helpLib/types/src/index.d.ts"/>
 // LiteLoader-AIDS automatic generated
 /// <reference path="d:\Levilamina/dts/HelperLib-master/src/index.d.ts"/>
-import { JsonLanguage } from "./lib/configTemplate";
+import lang from "./lib/language";
 mc.listen("onServerStarted", () => {
-    require("./lib/apiExporter");
-    colorLog("green","The plugin 'AgateBot' has finished loading.")
+    require("./API");
+    colorLog("green", lang.translate("plugin.loaded"));
 });

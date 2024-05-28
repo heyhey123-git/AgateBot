@@ -10,7 +10,7 @@ class JsonConfig {
     init() {
         if (file.exists(this.mPath)) {
             let existDataStr = file.readFrom(this.mPath) as string;
-            existDataStr = existDataStr.replace(/\/\/.*|\/\*[^]*?\*\//g, '');
+            existDataStr = existDataStr.replace(/\/\/.*|\/\*[^]*?\*\//g, "");
             try {
                 this.mData = Object.assign(
                     {},
@@ -18,7 +18,7 @@ class JsonConfig {
                     JSON.parse(existDataStr)
                 );
             } catch {
-                let newPath = this.mPath + '_old';
+                let newPath = this.mPath + "_old";
                 file.rename(this.mPath, newPath);
             }
         }
@@ -59,7 +59,7 @@ class JsonLanguage extends JsonConfig {
         super(path, defultValue);
     }
 
-    translate(key: string, data:string[] = []) {
+    translate(key: string, data: string[] = []) {
         let result = this.get(key);
         if (result == null) {
             return key;
@@ -73,14 +73,14 @@ class JsonLanguage extends JsonConfig {
 }
 
 class JsonI18n {
-    constructor(path: string, localLangCode = 'en_US') {
-        if (!path.endsWith('/') && !path.endsWith('\\')) {
-            path = path + '/';
+    constructor(path: string, localLangCode = "en_US") {
+        if (!path.endsWith("/") && !path.endsWith("\\")) {
+            path = path + "/";
         }
         this.mPath = path;
         this.mLangCode = localLangCode;
         this.mAllLanguages = {};
-        this.mDefaultLangCode = 'en_US';
+        this.mDefaultLangCode = "en_US";
         this.loadAllLanguages();
     }
 
@@ -91,7 +91,7 @@ class JsonI18n {
     loadAllLanguages() {
         let exist_list = file.getFilesList(this.mPath);
         exist_list.forEach((name: string) => {
-            let code = name.replace('.json', '');
+            let code = name.replace(".json", "");
             let path = this.mPath + name;
             let language = new JsonLanguage(path);
             this.mAllLanguages[code] = language;
@@ -100,7 +100,7 @@ class JsonI18n {
 
     loadLanguage(langCode: string, defaultData = {}) {
         let langPath = this.mPath;
-        langPath = langPath + langCode + '.json';
+        langPath = langPath + langCode + ".json";
         let language = new JsonLanguage(langPath, defaultData);
         this.mAllLanguages[langCode] = language;
     }
@@ -113,7 +113,7 @@ class JsonI18n {
         this.mDefaultLangCode = langCode;
     }
 
-    translate(key: string, data:string[] = [], langCode = this.mLangCode) {
+    translate(key: string, data: string[] = [], langCode = this.mLangCode) {
         let language = this.mAllLanguages[langCode];
         let result = language.translate(key, data);
         if (result == key) {

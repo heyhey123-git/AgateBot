@@ -15,9 +15,7 @@ for (let _file of filesArr) {
             try {
                 _data = JSON.parse(file.readFrom(manifest) as string);
             } catch (e) {
-                logger.warn(
-                    lang.translate("plugin.error.read", [manifest])
-                );
+                logger.warn(lang.translate("plugin.error.read", [manifest]));
             }
             let lack = "";
             lack += "name" in _data ? "" : " name ";
@@ -25,15 +23,16 @@ for (let _file of filesArr) {
             if (lack !== "") {
                 require(path.join(PLUGIN_PATH, _file, _data.entry));
                 pluginsNumbers++;
-                logger.log(lang.translate("plugin.succeed.individual",[_data.name]));
+                logger.log(
+                    lang.translate("plugin.succeed.individual", [_data.name])
+                );
                 continue;
             }
             logger.warn(
-                lang.translate("plugin.error.property",[manifest,lack]));
+                lang.translate("plugin.error.property", [manifest, lack])
+            );
         }
     }
 }
 
-logger.log(
-    lang.translate("plugin.succeed.all",[pluginsNumbers.toString()])
-);
+logger.log(lang.translate("plugin.succeed.all", [pluginsNumbers.toString()]));

@@ -1,5 +1,4 @@
-import  ConfigFile  from "./configCreator";
-import { JsonI18n } from "./configTemplate";
+import ConfigFile from "./configCreator";
 import lang from "./language";
 const bot = new WSClient();
 let reconnectTimes = 0;
@@ -7,16 +6,16 @@ let reconnectTimes = 0;
 let connectCallback = (success: boolean) => {
     if (!success) {
         logger.error(
-            lang.translate("connection.error",[reconnectTimes.toString(),bot.errorCode().toString()])
-            
+            lang.translate("connection.error", [
+                reconnectTimes.toString(),
+                bot.errorCode().toString(),
+            ])
         );
         setTimeout(() => {
             let maxReconnectionTimes = ConfigFile.get("max_Reconnection_Times");
             if (maxReconnectionTimes !== 0) {
                 if (maxReconnectionTimes < reconnectTimes) {
-                    logger.error(
-                        lang.translate("connection.max_reconnection")
-                    );
+                    logger.error(lang.translate("connection.max_reconnection"));
                 }
             }
             reconnectTimes++;
@@ -25,17 +24,18 @@ let connectCallback = (success: boolean) => {
         }, 30000);
     }
     reconnectTimes = 0;
-    colorLog("green", lang.translate("connection.succeed",[ConfigFile.get("Bot_Host")]));
+    colorLog(
+        "green",
+        lang.translate("connection.succeed", [ConfigFile.get("Bot_Host")])
+    );
 };
 bot.connectAsync(ConfigFile.get("Bot_Host"), connectCallback);
 
 bot.listen("onError", (msg) => {
-    logger.error(lang.translate("connection.on.error",[msg]));
+    logger.error(lang.translate("connection.on.error", [msg]));
 });
 bot.listen("onLostConnection", (code) => {
-    logger.error(
-        lang.translate("connection.on.lost",[code.toString()])
-    );
+    logger.error(lang.translate("connection.on.lost", [code.toString()]));
     bot.connectAsync(ConfigFile.get("Bot_Host"), connectCallback);
 });
 

@@ -11,7 +11,7 @@ let defaultConf: Config = {
     Bot_Host: "ws://localhost:3001",
     Self_QQ: 10000,
     max_Reconnection_Times: 0,
-    language: "en_US"
+    language: "en_US",
 };
 
 let ConfigFile = new JsonConfig(
@@ -19,4 +19,4 @@ let ConfigFile = new JsonConfig(
     defaultConf
 );
 
-export default ConfigFile ;
+export default ConfigFile;

@@ -1,3 +1,4 @@
+import { group } from "console";
 import { bot } from "./startBot";
 
 type eventName =
@@ -12,26 +13,29 @@ type eventName =
     | "onGroupRecallMsg"
     | "onFriendRecallMsg"
     | "onGroupPoke"
+    | "onFriendPoke"
     | "onGroupLuckyKing"
     | "onGroupMemberHonorChange"
     | "onAddFriendRequest"
     | "onAddGroupRequest"
     | "onHeartBeat"
-    | "onLifeCycle";
+    | "onLifeCycle"
+    | "onEmojiLike";
 
 function botListener(params: { [key: string]: any }, callback: Function): void {
     let paramList = Object.keys(params);
-    let equals = false;
+    let equals = true;
     bot.listen("onTextReceived", (msg) => {
         let _msg = JSON.parse(msg) as { [key: string]: any };
         for (let arg of paramList) {
             if (!(arg in Object.keys(_msg))) {
+                equals = false;
                 continue;
             }
-            if (_msg[arg] !== params[arg]) {
+            if (params[arg] !== "" && _msg[arg] !== params[arg]) {
+                equals = false;
                 continue;
             }
-            equals = true;
         }
         if (equals) {
             callback(_msg);
@@ -44,7 +48,7 @@ class botEvent {
      * @param event 所监听事件名称
      * @param callback 当目标时间触发时自动执行的回调，自动传入一个包含事件数据的对象
      *          函数原型：(params) => {}
-     * 详见文档：https://github.com/botuniverse/onebot-11/blob/master/event/README.md
+     * 对于对象params，详见文档：https://llonebot.github.io/zh-CN/develop/event#%E8%A1%A8%E6%83%85%E5%9B%9E%E5%BA%94%E4%B8%8A%E6%8A%A5
      */
     static listen = (event: eventName, callback: Function): void => {
         switch (event) {
@@ -145,24 +149,16 @@ class botEvent {
                     {
                         post_type: "notice",
                         sub_type: "poke",
+                        group_id: ""
                     },
                     callback
                 );
                 break;
-            case "onGroupLuckyKing":
+            case "onFriendPoke":
                 botListener(
                     {
                         post_type: "notice",
-                        sub_type: "lucky_king",
-                    },
-                    callback
-                );
-                break;
-            case "onGroupMemberHonorChange":
-                botListener(
-                    {
-                        post_type: "notice",
-                        sub_type: "honor",
+                        sub_type: "poke",
                     },
                     callback
                 );
@@ -200,6 +196,15 @@ class botEvent {
                     {
                         post_type: "meta_event",
                         meta_event_type: "lifecycle",
+                    },
+                    callback
+                );
+                break;
+            case "onEmojiLike":
+                botListener(
+                    {
+                        post_type: "notice",
+                        notice_type: "group_msg_emoji_like",
                     },
                     callback
                 );
