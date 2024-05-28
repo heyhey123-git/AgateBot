@@ -59,7 +59,7 @@ class JsonLanguage extends JsonConfig {
         super(path, defultValue);
     }
 
-    translate(key: string, data = []) {
+    translate(key: string, data:string[] = []) {
         let result = this.get(key);
         if (result == null) {
             return key;
@@ -113,7 +113,7 @@ class JsonI18n {
         this.mDefaultLangCode = langCode;
     }
 
-    translate(key: string, data = [], langCode = this.mLangCode) {
+    translate(key: string, data:string[] = [], langCode = this.mLangCode) {
         let language = this.mAllLanguages[langCode];
         let result = language.translate(key, data);
         if (result == key) {

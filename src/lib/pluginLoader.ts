@@ -1,9 +1,12 @@
 import path from "path";
-
+import lang from "./language";
 const PLUGIN_PATH = "./plugins/AgateBot/plugins/";
 let filesArr = file.getFilesList(PLUGIN_PATH);
 let pluginsNumbers = 0;
 
+if (!file.exists(PLUGIN_PATH)) {
+    file.mkdir(PLUGIN_PATH);
+}
 for (let _file of filesArr) {
     if (file.checkIsDir(path.join(PLUGIN_PATH, _file))) {
         let manifest = path.join(PLUGIN_PATH, _file, "manifest.json");
@@ -13,21 +16,24 @@ for (let _file of filesArr) {
                 _data = JSON.parse(file.readFrom(manifest) as string);
             } catch (e) {
                 logger.warn(
-                    "Failed while trying to read file:",
-                    manifest,
-                    "  The file may be in the wrong format"
+                    lang.translate("plugin.error.read", [manifest])
                 );
             }
-            if ("name" in _data && "entry" in _data) {
+            let lack = "";
+            lack += "name" in _data ? "" : " name ";
+            lack += "entry" in _data ? "" : " entry ";
+            if (lack !== "") {
                 require(path.join(PLUGIN_PATH, _file, _data.entry));
                 pluginsNumbers++;
-                logger.log("Plugin'", _data.name, "'has loaded successfully.");
+                logger.log(lang.translate("plugin.succeed.individual",[_data.name]));
+                continue;
             }
+            logger.warn(
+                lang.translate("plugin.error.property",[manifest,lack]));
         }
     }
 }
 
 logger.log(
-    "All loadable plug-ins have been loaded. Number of plugins: ",
-    pluginsNumbers
+    lang.translate("plugin.succeed.all",[pluginsNumbers.toString()])
 );

@@ -1,43 +1,40 @@
-import { ConfigFile } from "./configCreator";
-
+import  ConfigFile  from "./configCreator";
+import { JsonI18n } from "./configTemplate";
+import lang from "./language";
 const bot = new WSClient();
 let reconnectTimes = 0;
 
 let connectCallback = (success: boolean) => {
     if (!success) {
         logger.error(
-            "An attempt to connect to the specified WebSocket server failed. Number of reconnections:",
-            reconnectTimes,
-            " error Code:",
-            bot.errorCode()
+            lang.translate("connection.error",[reconnectTimes.toString(),bot.errorCode().toString()])
+            
         );
         setTimeout(() => {
             let maxReconnectionTimes = ConfigFile.get("max_Reconnection_Times");
             if (maxReconnectionTimes !== 0) {
                 if (maxReconnectionTimes < reconnectTimes) {
                     logger.error(
-                        "The maximum number of reconnections has been reached and reconnection has been abandoned."
+                        lang.translate("connection.max_reconnection")
                     );
                 }
             }
             reconnectTimes++;
-            logger.info("Trying reconnecting...");
+            logger.info(lang.translate("connection.connecting.error"));
             bot.connectAsync(ConfigFile.get("Bot_Host"), connectCallback);
         }, 30000);
     }
     reconnectTimes = 0;
-    colorLog("green", "Successfully connected to the bot:");
+    colorLog("green", lang.translate("connection.succeed",[ConfigFile.get("Bot_Host")]));
 };
 bot.connectAsync(ConfigFile.get("Bot_Host"), connectCallback);
 
 bot.listen("onError", (msg) => {
-    logger.error("An error occurred:", msg);
+    logger.error(lang.translate("connection.on.error",[msg]));
 });
 bot.listen("onLostConnection", (code) => {
     logger.error(
-        "The connection to the robot was unexpectedly lost. code:",
-        code,
-        " Trying to reconnect..."
+        lang.translate("connection.on.lost",[code.toString()])
     );
     bot.connectAsync(ConfigFile.get("Bot_Host"), connectCallback);
 });
