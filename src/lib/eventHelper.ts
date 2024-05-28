@@ -1,4 +1,3 @@
-import { group } from "console";
 import { bot } from "./startBot";
 
 type eventName =
