@@ -13,8 +13,6 @@ type eventName =
     | "onFriendRecallMsg"
     | "onGroupPoke"
     | "onFriendPoke"
-    | "onGroupLuckyKing"
-    | "onGroupMemberHonorChange"
     | "onAddFriendRequest"
     | "onAddGroupRequest"
     | "onHeartBeat"
@@ -41,14 +39,19 @@ function botListener(params: { [key: string]: any }, callback: Function): void {
         }
     });
 }
+
+
 class botEvent {
+
+    
     /**
      * 注册一个监听器
      * @param event 所监听事件名称
      * @param callback 当目标时间触发时自动执行的回调，自动传入一个包含事件数据的对象
-     *          函数原型：(params) => {}
+     *          函数原型：(params) => {} 其中params为一个包含事件数据的对象
      * 对于对象params，详见文档：https://llonebot.github.io/zh-CN/develop/event#%E8%A1%A8%E6%83%85%E5%9B%9E%E5%BA%94%E4%B8%8A%E6%8A%A5
      */
+    
     static listen = (event: eventName, callback: Function): void => {
         switch (event) {
             case "onReceiveGroupMessage":

@@ -1,0 +1,5 @@
+{
+    "name": "atInformation",
+    "entry": "index.js",
+    "description":"Forward messages to and from BDS and QQgroup to each other."
+}
