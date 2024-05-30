@@ -2,7 +2,7 @@ import { botEvent, apiExecute } from "../../API";
 import { JsonConfig } from "../../lib/configTemplate";
 const { PAPI } = require('../../../GMLIB-LegacyRemoteCallApi/lib/BEPlaceholderAPI-JS');
 
-const PATH = "./plugins/AgateBot/plugins/messageForward/";
+const PATH = "./plugins/AgateBot/plugins/atInformation/";
 interface config {
     groups: Number[];
     sensitiveWords: string[];
