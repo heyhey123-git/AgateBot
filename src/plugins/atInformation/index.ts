@@ -24,9 +24,9 @@ botEvent.listen("onReceiveGroupMessage",(params:any) => {
     if (!groups.includes(group_id)) {
         return;
     }
-    if (message.length === 1 && message[0].type === "at" && message[0].data.qq === CONFIG.get("self_QQ") && !params.anonymous) {
+    if (message.length === 1 && message[0].type === "at" && message[0].data.qq == CONFIG.get("self_QQ") && params.sub_type === "normal") {
         
         let toSendMsg = [{type:"at",data:{qq:user_id.toString()}},{type:"text",data:{text:PAPI.translateString(CONFIG.get("serverInformation"))}}]
-        apiExecute("send_group_msg",{group_id:group_id,message:toSendMsg},(_params:any)=>{})
+        apiExecute("send_group_msg_rate_limited" as "send_group_msg",{group_id:group_id,message:toSendMsg},(_params:any)=>{})
     }
 })

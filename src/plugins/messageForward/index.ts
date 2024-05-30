@@ -51,7 +51,7 @@ mc.listen("onChat", (pl, msg) => {
     let groups: Number[] = CONFIG.get("groups");
     for (let groupID of groups) {
         apiExecute(
-            "send_group_msg",
+            "send_group_msg_rate_limited" as "send_group_msg",
             { group_id: groupID, message: newMsg, auto_escape: false },
             (params: any) => {}
         );
