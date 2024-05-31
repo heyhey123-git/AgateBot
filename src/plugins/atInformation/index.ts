@@ -7,13 +7,11 @@ const {
 const PATH = "./plugins/AgateBot/plugins/atInformation/";
 interface config {
     groups: Number[];
-    sensitiveWords: string[];
     self_QQ: Number;
     serverInformation: string;
 }
 let configFile: config = {
     groups: [10000],
-    sensitiveWords: [""],
     self_QQ: 10000,
     serverInformation:
         "，你所查询的信息如下：\n服务器版本：%server_version%(%server_protocol_version%)\n在线玩家:%server_online%\n实体数量:%server_total_entities%\nTps:%server_tps%\nMspt:%server_mspt%\nBDS占用内存:%server_ram_bds_used%",

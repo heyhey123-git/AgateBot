@@ -1,6 +1,6 @@
-import { botEvent, apiExecute, apiExecute_sync } from "../../API";
+import { botEvent, apiExecute_sync } from "../../API";
 import { JsonConfig } from "../../lib/configTemplate";
-const PATH = "./plugins/AgateBot/plugins/messageForward/";
+const PATH = "./plugins/AgateBot/plugins/quickCmd/";
 
 interface config {
     groups: Number[];
@@ -51,13 +51,13 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
         return;
     }
     if (message[0].data.qq == CONFIG.get("self_qq")) {
-        let text = message[1].data.text as string;
+        let text = message[1].data.text.trim() as string;
         let cmdFlag = CONFIG.get("cmd_flag") as string;
         let rmFlag = CONFIG.get("operator_remove_flag") as string;
         let addFlag = CONFIG.get("operator_add_flag") as string;
         let { group_id, user_id, message_id } = params;
         if (text.startsWith(cmdFlag)) {
-            let cmd = text.slice(text.indexOf(cmdFlag) + 1);
+            let cmd = text.slice(text.indexOf(cmdFlag) + cmdFlag.length);
             let result = mc.runcmdEx(cmd);
             let success = result.success ? "执行成功" : "执行失败";
             let { output } = result;
@@ -73,7 +73,9 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
             return;
         }
         if (text.startsWith(addFlag)) {
-            let toAdd = text.slice(text.indexOf(rmFlag) + 1).trim();
+            let toAdd = text
+                .slice(text.indexOf(addFlag) + addFlag.length)
+                .trim();
             if (isNaN(Number(toAdd))) {
                 apiExecute_sync(
                     "send_group_msg_rate_limited" as "send_group_msg",
@@ -85,7 +87,7 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
                             {
                                 type: "text",
                                 data: {
-                                    text: `你所输入的内容"${toAdd}"并非一串纯数字。`,
+                                    text: ` 你所输入的内容"${toAdd}"并非一串纯数字。`,
                                 },
                             },
                         ],
@@ -105,7 +107,7 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
                             { type: "at", data: { qq: user_id } },
                             {
                                 type: "text",
-                                data: { text: `op列表里已经包含此人。` },
+                                data: { text: ` op列表里已经包含此人。` },
                             },
                         ],
                     }
@@ -125,7 +127,7 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
             return;
         }
         if (text.startsWith(rmFlag)) {
-            let toRm = text.slice(text.indexOf(rmFlag) + 1).trim();
+            let toRm = text.slice(text.indexOf(rmFlag) + rmFlag.length).trim();
             if (isNaN(Number(toRm))) {
                 apiExecute_sync(
                     "send_group_msg_rate_limited" as "send_group_msg",
@@ -137,7 +139,7 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
                             {
                                 type: "text",
                                 data: {
-                                    text: `你所输入的内容"${toRm}"并非一串纯数字。`,
+                                    text: ` 你所输入的内容"${toRm}"并非一串纯数字。`,
                                 },
                             },
                         ],
@@ -157,7 +159,7 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
                             { type: "at", data: { qq: user_id } },
                             {
                                 type: "text",
-                                data: { text: `op列表里未包含此人。` },
+                                data: { text: ` op列表里未包含此人。` },
                             },
                         ],
                     }
@@ -171,7 +173,7 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
                 message: [
                     { type: "reply", data: { id: message_id } },
                     { type: "at", data: { qq: user_id } },
-                    { type: "text", data: { text: `已夺取此人的权限。` } },
+                    { type: "text", data: { text: ` 已夺取此人的权限。` } },
                 ],
             });
             return;

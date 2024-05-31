@@ -19,9 +19,13 @@ let connectCallback = (success: boolean) => {
                 }
             }
             reconnectTimes++;
-            logger.info(lang.translate("connection.connecting.error"));
+            logger.info(lang.translate("connection.connecting.error"), [
+                reconnectTimes.toString(),
+                bot.errorCode().toString(),
+            ]);
             bot.connectAsync(ConfigFile.get("Bot_Host"), connectCallback);
         }, 30000);
+        return;
     }
     reconnectTimes = 0;
     colorLog(

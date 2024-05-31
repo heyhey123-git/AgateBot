@@ -69,7 +69,9 @@ function apiExecute(
 ): { success: boolean; reason: unknown } {
     let success = false;
     let reason: unknown = void 0;
-    let _echo: string = echo ? echo : (Math.random() * 10000000).toString();
+    let _echo: string = echo
+        ? echo
+        : Math.floor(Math.random() * 10000000).toString();
     try {
         let result = bot.send(
             JSON.stringify({
@@ -143,7 +145,9 @@ function apiExecute_sync(
     params: { [key: string]: any },
     echo?: string
 ): any | null {
-    let _echo: string = echo ? echo : (Math.random() * 10000000).toString();
+    let _echo: string = echo
+        ? echo
+        : Math.floor(Math.random() * 10000000).toString();
     try {
         let result = bot.send(
             JSON.stringify({

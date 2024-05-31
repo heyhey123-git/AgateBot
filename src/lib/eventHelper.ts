@@ -25,13 +25,14 @@ function botListener(params: { [key: string]: any }, callback: Function): void {
     bot.listen("onTextReceived", (msg) => {
         let _msg = JSON.parse(msg.toString()) as { [key: string]: any };
         for (let arg of paramList) {
-            if (!(arg in Object.keys(_msg))) {
+            equals = true;
+            if (!_msg.hasOwnProperty(arg)) {
                 equals = false;
-                continue;
+                break;
             }
             if (params[arg] !== "" && _msg[arg] !== params[arg]) {
                 equals = false;
-                continue;
+                break;
             }
         }
         if (equals) {

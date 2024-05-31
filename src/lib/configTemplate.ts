@@ -1,25 +1,29 @@
+import fs from "fs";
+import * as FilePath from "path";
+import * as JSON5 from "json5";
+
 class JsonConfig {
-    constructor(path: string, defultValue: { [key: string]: any }) {
+    constructor(configPath: string, defultValue: any) {
         this.mData = defultValue;
-        this.mPath = path;
+        this.mPath = configPath;
         this.init();
     }
     private mData;
     private mPath;
-
     init() {
-        if (file.exists(this.mPath)) {
-            let existDataStr = file.readFrom(this.mPath) as string;
-            existDataStr = existDataStr.replace(/\/\/.*|\/\*[^]*?\*\//g, "");
+        if (fs.existsSync(this.mPath)) {
+            let existDataStr = fs.readFileSync(this.mPath, {
+                encoding: "utf-8",
+            });
             try {
                 this.mData = Object.assign(
                     {},
                     this.mData,
-                    JSON.parse(existDataStr)
+                    JSON5.parse(existDataStr)
                 );
             } catch {
                 let newPath = this.mPath + "_old";
-                file.rename(this.mPath, newPath);
+                fs.rename(this.mPath, newPath, () => {});
             }
         }
         this.save();
@@ -27,14 +31,18 @@ class JsonConfig {
 
     save(format = 4) {
         let dataStr = JSON.stringify(this.mData, null, format);
-        file.writeTo(this.mPath, dataStr);
+        let dirPath = FilePath.dirname(this.mPath);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath);
+        }
+        fs.writeFileSync(this.mPath, dataStr);
     }
 
     getData() {
         return this.mData;
     }
 
-    get(key: string, defultValue = undefined) {
+    get(key: string, defultValue: any = undefined) {
         let result = this.getData()[key];
         if (!result && defultValue != undefined) {
             this.set(key, defultValue);
@@ -59,12 +67,12 @@ class JsonLanguage extends JsonConfig {
         super(path, defultValue);
     }
 
-    translate(key: string, data: string[] = []) {
+    translate(key: string, data: any = []) {
         let result = this.get(key);
         if (result == null) {
             return key;
         }
-        data.forEach((val, index) => {
+        data.forEach((val: any, index: number) => {
             let old = `{${index + 1}}`;
             result = result.split(old).join(val);
         });
@@ -78,18 +86,20 @@ class JsonI18n {
             path = path + "/";
         }
         this.mPath = path;
+        if (!fs.existsSync(this.mPath)) {
+            fs.mkdirSync(this.mPath);
+        }
         this.mLangCode = localLangCode;
         this.mAllLanguages = {};
         this.mDefaultLangCode = "en_US";
         this.loadAllLanguages();
     }
-
-    private mPath;
-    private mLangCode;
-    private mAllLanguages: { [key: string]: JsonLanguage };
-    private mDefaultLangCode;
+    private mPath: string;
+    private mLangCode: string;
+    private mAllLanguages: { [key: string]: any };
+    private mDefaultLangCode: string;
     loadAllLanguages() {
-        let exist_list = file.getFilesList(this.mPath);
+        let exist_list = fs.readdirSync(this.mPath);
         exist_list.forEach((name: string) => {
             let code = name.replace(".json", "");
             let path = this.mPath + name;
@@ -98,7 +108,7 @@ class JsonI18n {
         });
     }
 
-    loadLanguage(langCode: string, defaultData = {}) {
+    loadLanguage(langCode: string, defaultData: any = {}) {
         let langPath = this.mPath;
         langPath = langPath + langCode + ".json";
         let language = new JsonLanguage(langPath, defaultData);
@@ -113,7 +123,7 @@ class JsonI18n {
         this.mDefaultLangCode = langCode;
     }
 
-    translate(key: string, data: string[] = [], langCode = this.mLangCode) {
+    translate(key: string, data: any = [], langCode = this.mLangCode) {
         let language = this.mAllLanguages[langCode];
         let result = language.translate(key, data);
         if (result == key) {
