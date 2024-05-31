@@ -93,12 +93,22 @@ function apiExecute(
         }),
         new Promise((resolve, reject) => {
             bot.listen("onTextReceived", (msg) => {
-                let _msg = JSON.parse(msg) as Object;
+                let _msg = JSON.parse(msg.toString());
                 if (!("echo" in _msg)) {
                     return;
                 }
                 if (_msg.echo === _echo) {
-                    resolve(_msg);
+                    if (_msg.status === "failed") {
+                        reject(
+                            lang.translate("api.error.response", [
+                                action,
+                                _msg.message,
+                                _echo,
+                            ])
+                        );
+                        return;
+                    }
+                    resolve(_msg.params);
                 }
             });
         }),
@@ -132,7 +142,7 @@ function apiExecute_sync(
     action: action,
     params: { [key: string]: any },
     echo?: string
-): object | null {
+): any | null {
     let _echo: string = echo ? echo : (Math.random() * 10000000).toString();
     try {
         let result = bot.send(
@@ -158,12 +168,22 @@ function apiExecute_sync(
         }),
         new Promise((resolve, reject) => {
             bot.listen("onTextReceived", (msg) => {
-                let _msg = JSON.parse(msg) as Object;
+                let _msg = JSON.parse(msg.toString());
                 if (!("echo" in _msg)) {
                     return;
                 }
                 if (_msg.echo === _echo) {
-                    resolve(_msg);
+                    if (_msg.status === "failed") {
+                        reject(
+                            lang.translate("api.error.response", [
+                                action,
+                                _msg.message,
+                                _echo,
+                            ])
+                        );
+                        return;
+                    }
+                    resolve(_msg.params);
                 }
             });
         }),
@@ -183,5 +203,6 @@ function apiExecute_sync(
 
 ll.exports(botEvent.listen, "AgateBot", "botEventListen");
 ll.exports(apiExecute, "AgateBot", "APIExecute");
+ll.exports(apiExecute_sync, "AgateBot", "APIExecuteSync");
 
 export { botEvent, apiExecute, apiExecute_sync };

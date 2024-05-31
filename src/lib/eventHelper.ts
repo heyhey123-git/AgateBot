@@ -23,7 +23,7 @@ function botListener(params: { [key: string]: any }, callback: Function): void {
     let paramList = Object.keys(params);
     let equals = true;
     bot.listen("onTextReceived", (msg) => {
-        let _msg = JSON.parse(msg) as { [key: string]: any };
+        let _msg = JSON.parse(msg.toString()) as { [key: string]: any };
         for (let arg of paramList) {
             if (!(arg in Object.keys(_msg))) {
                 equals = false;
@@ -40,10 +40,7 @@ function botListener(params: { [key: string]: any }, callback: Function): void {
     });
 }
 
-
 class botEvent {
-
-    
     /**
      * 注册一个监听器
      * @param event 所监听事件名称
@@ -51,7 +48,7 @@ class botEvent {
      *          函数原型：(params) => {} 其中params为一个包含事件数据的对象
      * 对于对象params，详见文档：https://llonebot.github.io/zh-CN/develop/event#%E8%A1%A8%E6%83%85%E5%9B%9E%E5%BA%94%E4%B8%8A%E6%8A%A5
      */
-    
+
     static listen = (event: eventName, callback: Function): void => {
         switch (event) {
             case "onReceiveGroupMessage":
@@ -151,7 +148,7 @@ class botEvent {
                     {
                         post_type: "notice",
                         sub_type: "poke",
-                        group_id: ""
+                        group_id: "",
                     },
                     callback
                 );

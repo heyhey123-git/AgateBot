@@ -46,9 +46,9 @@ botEvent.listen("onReceiveGroupMessage", (params: any) => {
                 },
             },
         ];
-        apiExecute_sync(
-            "send_group_msg_rate_limited" as "send_group_msg",
-            { group_id: group_id, message: toSendMsg }
-        );
+        apiExecute_sync("send_group_msg_rate_limited" as "send_group_msg", {
+            group_id: group_id,
+            message: toSendMsg,
+        });
     }
 });

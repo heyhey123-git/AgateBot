@@ -22,7 +22,8 @@ new JsonLanguage(path.join(PATH, "zh_CN.json"), {
     "plugin.succeed.all": "{1} 个插件已成功加载。",
     "api.error.request":
         "发送调用api:“ {1} ” 的请求时出错。请检查与机器人的连接是否正常。",
-    "api.timeout.response": "等待bot的响应超时。echo: {}",
+    "api.timeout.response": "等待bot的响应超时。echo: {1}",
+    "api.error.response": "调用api{1}时失败。原因：{2}； echo: {3}",
 });
 
 //en_US
@@ -45,7 +46,8 @@ new JsonLanguage(path.join(PATH, "en_US.json"), {
     "plugin.succeed.all": "{1} plugins have been loaded successfully.",
     "api.error.request":
         "Error sending request calling api:'{1}'. Please check that the connection to the bot is working.",
-    "api.timeout.response": "Wait for a response timeout from bot. echo: {}",
+    "api.timeout.response": "Wait for a response timeout from bot. echo: {1}",
+    "api.error.response": "Failed to call api '{1}'. Reason: {2}; echo: {3}",
 });
 
 let lang = new JsonI18n(PATH, ConfigFile.get("language"));
