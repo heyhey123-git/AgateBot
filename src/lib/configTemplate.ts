@@ -43,7 +43,7 @@ class JsonConfig {
         return result;
     }
 
-    set(key: string, value: string) {
+    set(key: string, value: any) {
         this.getData()[key] = value;
         this.save();
     }
