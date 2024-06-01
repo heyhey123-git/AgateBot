@@ -10,7 +10,7 @@
     "setup"
   ],
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./AgateBot/index.js"
   },
   "engines": {
     "node": ">=20"
@@ -22,7 +22,7 @@
     "format:write": "npx prettier --write .",
     "format:check": "npx prettier --check .",
     "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
-    "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "package": "npx ncc build src/index.ts -o AgateBot --source-map --license licenses.txt",
     "package:watch": "npm run package -- --watch",
     "test": "npx jest",
     "all": "npm run format:write && npm run lint && npm run test && npm run coverage && npm run package"
@@ -42,7 +42,7 @@
     ],
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/dist/"
+      "/AgateBot/"
     ],
     "transform": {
       "^.+\\.ts$": "ts-jest"

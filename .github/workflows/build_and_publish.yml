@@ -30,13 +30,17 @@ jobs:
           file: package.json
           path: ./
         id: package-info
-      - name: copy json files
-        run: cp ./package.json ./package-lock.json ./manifest.json ./dist/
+      - name: copy json files and d.ts
+        run: |
+            cp ./package.json ./package-lock.json ./manifest.json ./declare/api.d.ts ./AgateBot/
+            cp ./src/plugins/atInformation/manifest.json ./AgateBot/plugins/atInformation/
+            cp ./src/plugins/messageForward/manifest.json ./AgateBot/plugins/messageForward/
+            cp ./src/plugins/quickCmd/manifest.json ./AgateBot/plugins/quickCmd/
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
-          path: ./dist/
+          path: ./AgateBot/
           filename: 'AgateBot-v${{ env.PACKAGE_VERSION }}-release.zip'
       - name: Upload asset to release
         uses: ncipollo/release-action@v1

@@ -18,7 +18,7 @@
     "files": {
         "place": [
             {
-                "src": "dist/*",
+                "src": "AgateBot/*",
                 "dest": "plugins/AgateBot"
             }
         ]

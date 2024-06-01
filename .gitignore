@@ -105,4 +105,4 @@ __tests__/runner/*
 .prettierrc.json
 
 #debug files
-dist
+AgateBot

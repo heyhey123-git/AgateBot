@@ -205,8 +205,4 @@ function apiExecute_sync(
     return output;
 }
 
-ll.exports(botEvent.listen, "AgateBot", "botEventListen");
-ll.exports(apiExecute, "AgateBot", "APIExecute");
-ll.exports(apiExecute_sync, "AgateBot", "APIExecuteSync");
-
 export { botEvent, apiExecute, apiExecute_sync };

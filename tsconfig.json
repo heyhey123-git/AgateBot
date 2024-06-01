@@ -8,7 +8,7 @@
     "moduleResolution": "Node",
     "baseUrl": "./",
     "sourceMap": false,
-    "outDir": "./dist",
+    "outDir": "./AgateBot",
     "noImplicitAny": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -22,6 +22,5 @@
       "module": "CommonJS"
     }
   },
-  "include": ["./src"],
-  "exclude": ["./src/types"]
+  "include": ["./src"]
 }

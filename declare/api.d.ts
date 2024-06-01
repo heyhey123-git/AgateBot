@@ -456,14 +456,8 @@ interface LifeCycle extends MetaEvent {
     sub_type: string;
 }
 
-// echo
-interface Returnecho {
-    status: string;
-    retcode: number;
-    /** 根据响应数据不同可能有不同 */
-    data: any;
-    uuid: string;
-}
+// echo 根据响应数据不同可能有不同
+declare type Returnecho = any 
 
 declare namespace botEvent {
     /** 收到群聊消息 */
